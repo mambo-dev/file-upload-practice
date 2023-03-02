@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import MultipleUploadForm from "../../componets/multipe-upload-form";
-import SingleUploadForm from "../../componets/single-upload-form";
+import MultipleUploadForm from "../../components/multipe-upload-form";
+import SingleUploadForm from "../../components/single-upload-form";
 
 export type ErrorMessage = {
   message: string;

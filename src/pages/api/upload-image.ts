@@ -24,11 +24,10 @@ export default async function handler(
 
   try {
     const { fields, files } = await parseForm(req);
-    console.log(fields, files);
 
     const file = files.media;
     let url = Array.isArray(file) ? file.map((f) => f.filepath) : file.filepath;
-
+    console.log(file);
     res.status(200).json({
       data: {
         url,

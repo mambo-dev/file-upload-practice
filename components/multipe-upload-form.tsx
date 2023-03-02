@@ -5,7 +5,7 @@ import { ErrorMessage } from "../src/pages";
 type Props = {};
 
 export default function MultipleUploadForm({}: Props) {
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[] | null>(null);
   const [previewUrls, setPreviewUrls] = useState<string[] | null>(null);
   const [error, setError] = useState<ErrorMessage | null>(null);
   const [success, setSuccess] = useState(false);
@@ -51,6 +51,7 @@ export default function MultipleUploadForm({}: Props) {
     setPreviewUrls(
       validFiles.map((validFile) => URL.createObjectURL(validFile))
     );
+    setFiles(validFiles);
     //reset file input
     e.currentTarget.type = "text";
     e.currentTarget.type = "file";
@@ -59,21 +60,22 @@ export default function MultipleUploadForm({}: Props) {
   //cancel button
   function handleCancelFile(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (!previewUrls && !file) {
+    if (!previewUrls && !files) {
       setError({
         message: "no file chosen",
       });
       return;
     }
-    setFile(null);
+    setFiles(null);
     setPreviewUrls(null);
   }
 
   //upload button
   async function handleUploadFile(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-
-    if (!file) {
+    console.log(files);
+    //@ts-ignore
+    if (files?.length <= 0) {
       setError({
         message: "no file chosen",
       });
@@ -82,7 +84,10 @@ export default function MultipleUploadForm({}: Props) {
 
     try {
       let formData = new FormData();
-      formData.append("media", file);
+
+      files?.forEach((file) => {
+        formData.append("media", file);
+      });
       const res = await fetch("/api/upload-image", {
         method: "POST",
         body: formData,
@@ -106,10 +111,10 @@ export default function MultipleUploadForm({}: Props) {
         return;
       }
       setSuccess(true);
-      setFile(null);
+      setFiles(null);
       setPreviewUrls(null);
 
-      console.log("File was uploaded successfylly:", data);
+      console.log("Files were uploaded successfully:", data);
     } catch (error) {
       console.error(error);
       setSuccess(false);
@@ -127,11 +132,11 @@ export default function MultipleUploadForm({}: Props) {
       >
         <div className="flex flex-col  gap-1.5 md:py-4">
           {previewUrls ? (
-            <div className="grid grid-cols-10 gap-x-2 bg-yellow-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 ">
               {previewUrls.map((url: string, index: number) => (
                 <div
                   key={index}
-                  className=" w-96  border border-slate-300 h-64 rounded-md relative"
+                  className=" w-full border border-slate-300 h-64 rounded-md relative"
                 >
                   <Image
                     alt="file uploader preview"
