@@ -8,12 +8,12 @@ To get started with this project, follow these steps:
 
 Install Next.js and Tailwind CSS in your project using the TypeScript flag:
 
-npx create-next-app my-app --example "https://github.com/vercel/next-learn-starter/tree/main/typescript" --typescript
+npx create-next-app my-app --typescript
 npm install tailwindcss
 
 Install the formidable package using npm install formidable.
 
-Create an API route in your Next.js project that handles file uploads. You can copy the code from the pages/api/upload-profile-picture.ts file in this project.
+Create an API route in your Next.js project that handles file uploads. You can copy the code from the pages/api/upload-image.ts file in this project.
 
 Customize the file upload directory and file size limits to fit your application's needs.
 
